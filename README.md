@@ -20,10 +20,6 @@
 - ❤️️ TEST
 - ⚠️ SECURITY
 
-### License
-
-![GitHub](https://img.shields.io/github/license/IndexOffy/tor-network-api-search?style=flat-square)
-
 This project is licensed under the terms of the MIT license.
 
 **RESOURCES**
