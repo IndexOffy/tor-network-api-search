@@ -19,6 +19,6 @@ class AuthGroup(Base):
 
 class ControllerAuthGroup(BaseController):
 
-    def __init__(self, db = None):
+    def __init__(self, db=None):
         super().__init__(db)
         self.model_class = AuthGroup

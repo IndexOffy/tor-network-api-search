@@ -20,8 +20,8 @@ class AuthUser(Base):
     email = Column(String(75), unique=True)
     username = Column(String(45), unique=True)
     password = Column(String(100), unique=True)
-    first_name =  Column(String(100))
-    last_name =  Column(String(100))
+    first_name = Column(String(100))
+    last_name = Column(String(100))
     is_staff = Column(Boolean, default=False)
     is_active = Column(Boolean, default=True)
     created_date = Column(DateTime, default=datetime.utcnow)
@@ -30,6 +30,6 @@ class AuthUser(Base):
 
 class ControllerAuthUser(BaseController):
 
-    def __init__(self, db = None):
+    def __init__(self, db=None):
         super().__init__(db)
         self.model_class = AuthUser
