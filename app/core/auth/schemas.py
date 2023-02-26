@@ -9,6 +9,11 @@ class SchemaSignup(BaseModel):
 
 
 class SchemaLogin(BaseModel):
+    email: EmailStr
+    password: SecretStr
+
+
+class SchemaLoginOutpu(BaseModel):
     access_token: str
     refresh_token: str
 

@@ -3,7 +3,7 @@ from fastapi.security import HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 
 from app.core.auth.models.auth_user import ControllerAuthUser
-from app.core.auth.schemas import SchemaSignup
+from app.core.auth.schemas import SchemaSignup, SchemaLogin
 
 from app.core.database import get_db
 from app.core.auth.security import security, auth_handler
@@ -35,7 +35,7 @@ def signup(
 
 @auth.post('/login')
 def login(
-        user: SchemaSignup,
+        user: SchemaLogin,
         db: Session = Depends(get_db)):
     query_user = ControllerAuthUser(db=db).read(params={"email": user.email})
 
