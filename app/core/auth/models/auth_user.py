@@ -5,7 +5,7 @@ from sqlalchemy import (
     DateTime,
     String,
     Integer)
-from app.core.database import Base
+from app.core.database import Base, engine
 from app.core.controller import BaseController
 
 
@@ -25,7 +25,10 @@ class AuthUser(Base):
     is_staff = Column(Boolean, default=False)
     is_active = Column(Boolean, default=True)
     created_date = Column(DateTime, default=datetime.utcnow)
-    update_date = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    update_date = Column(
+        DateTime,
+        default=datetime.utcnow,
+        onupdate=datetime.utcnow)
 
 
 class ControllerAuthUser(BaseController):
@@ -33,3 +36,6 @@ class ControllerAuthUser(BaseController):
     def __init__(self, db=None):
         super().__init__(db)
         self.model_class = AuthUser
+
+
+Base.metadata.create_all(bind=engine)

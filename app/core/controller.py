@@ -33,7 +33,7 @@ class BaseController(object):
         """
         columns = dict()
         for param in self.model_class.__mapper__.attrs.keys():
-            if kwargs.get(param) is not None:
+            if params.get(param) is not None:
                 columns[param] = params.get(param)
 
         try:
