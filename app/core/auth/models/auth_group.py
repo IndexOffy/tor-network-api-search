@@ -2,7 +2,7 @@ from sqlalchemy import (
     Column,
     String,
     Integer)
-from app.core.database import Base
+from app.core.database import Base, engine
 from app.core.controller import BaseController
 
 
@@ -22,3 +22,6 @@ class ControllerAuthGroup(BaseController):
     def __init__(self, db=None):
         super().__init__(db)
         self.model_class = AuthGroup
+
+
+Base.metadata.create_all(bind=engine)
