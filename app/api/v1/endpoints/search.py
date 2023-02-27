@@ -19,6 +19,9 @@ def get_all(
         limit: int = 10,
         sort_by: str = 'id',
         order_by: str = 'desc',
+        title: str = '',
+        author: str = '',
+        keywords: str = '',
         db: Session = Depends(get_db),
         user=Depends(authorization)):
     return ControllerLink(db=db).read(
