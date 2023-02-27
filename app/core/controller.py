@@ -20,10 +20,16 @@ class BaseController(object):
 
         self.model_class = None
 
+    def load_columns(self, params: dict = {}):
+        self.columns = dict()
+        for param in self.model_class.__mapper__.attrs.keys():
+            if params.get(param) is not None:
+                self.columns[param] = None if params.get(param) == '' else params.get(param)
+
     def read(
             self,
             offset: int = 0,
-            limit: int = 100,
+            limit: int = 10,
             sort_by: str = 'id',
             order_by: str = 'desc',
             qtype: str = 'first',
@@ -31,17 +37,14 @@ class BaseController(object):
             **kwargs):
         """Get a record from the database.
         """
-        columns = dict()
-        for param in self.model_class.__mapper__.attrs.keys():
-            if params.get(param) is not None:
-                columns[param] = params.get(param)
+        self.load_columns(params)
+        limit = limit if limit <= 10 else 10
 
         try:
             query_model = self.db.query(self.model_class)
-            for column in columns:
-                item_param = None if columns.get(column) == 'null' else columns.get(column)
+            for column in self.columns:
                 query_model = query_model.filter(
-                    getattr(self.model_class, column) == item_param)
+                    getattr(self.model_class, column) == self.columns.get(column))
 
             sort_by = getattr(self.model_class, sort_by)
 
