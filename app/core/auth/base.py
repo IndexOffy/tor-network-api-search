@@ -1,11 +1,9 @@
 import jwt
 
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 from datetime import datetime, timedelta
 from passlib.context import CryptContext
-
 from app.core.settings import set_up
-from app.core.auth.models.auth_user import ControllerAuthUser
 
 
 class BaseAuth:
@@ -20,12 +18,12 @@ class BaseAuth:
     def verify_password(self, password, encoded_password):
         return self.crypt.verify(password, encoded_password)
 
-    def encode_token(self, username):
+    def encode_token(self, email):
         payload = {
             'exp': datetime.utcnow() + timedelta(days=0, minutes=30),
             'iat': datetime.utcnow(),
             'scope': 'access_token',
-            'sub': username}
+            'value': email}
 
         return jwt.encode(
             payload,
@@ -36,28 +34,28 @@ class BaseAuth:
         try:
             payload = jwt.decode(token, self.secret, algorithms=['HS256'])
             if (payload['scope'] == 'access_token'):
-                return ControllerAuthUser().read(username=payload['sub']).id
+                return payload
 
             raise HTTPException(
-                status_code=401,
-                detail='Scope for the token is invalid')
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail='Scope for the Token is Invalid')
 
         except jwt.ExpiredSignatureError:
             raise HTTPException(
-                status_code=401,
+                status_code=status.HTTP_401_UNAUTHORIZED,
                 detail='Token Expired')
 
         except jwt.InvalidTokenError:
             raise HTTPException(
-                status_code=401,
+                status_code=status.HTTP_401_UNAUTHORIZED,
                 detail='Invalid Token')
 
-    def encode_refresh_token(self, username):
+    def encode_refresh_token(self, email):
         payload = {
             'exp': datetime.utcnow() + timedelta(days=0, hours=10),
             'iat': datetime.utcnow(),
             'scope': 'refresh_token',
-            'sub': username}
+            'value': email}
 
         return jwt.encode(
             payload=payload,
@@ -72,20 +70,20 @@ class BaseAuth:
                 algorithms=['HS256'])
 
             if (payload['scope'] == 'refresh_token'):
-                username = payload['sub']
-                new_token = self.encode_token(username)
+                email = payload['value']
+                new_token = self.encode_token(email)
                 return new_token
 
             raise HTTPException(
-                status_code=401,
+                status_code=status.HTTP_401_UNAUTHORIZED,
                 detail='Invalid Scope for Token')
 
         except jwt.ExpiredSignatureError:
             raise HTTPException(
-                status_code=401,
+                status_code=status.HTTP_401_UNAUTHORIZED,
                 detail='Refresh Token Expired')
 
         except jwt.InvalidTokenError:
             raise HTTPException(
-                status_code=401,
+                status_code=status.HTTP_401_UNAUTHORIZED,
                 detail='Invalid Refresh Token')
