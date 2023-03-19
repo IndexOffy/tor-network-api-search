@@ -4,8 +4,7 @@ from sqlalchemy import (
     Column,
     Integer,
     String,
-    DateTime,
-    Boolean)
+    DateTime)
 from datetime import datetime
 from app.core.controller import BaseController
 from app.core.database import Base
@@ -20,12 +19,6 @@ class Link(Base):
     title = Column(String(100))
     author = Column(String(45))
     keywords = Column(String(50))
-    verify = Column(Boolean, default=False, index=True)
-    explored = Column(Boolean, default=False, index=True)
-    running = Column(Boolean, default=False, index=True)
-    fail = Column(Boolean, default=False)
-    login = Column(Boolean, default=False)
-    attempts = Column(Integer, default=0)
     created_date = Column(DateTime, default=datetime.utcnow)
     update_date = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
