@@ -1,0 +1,10 @@
+site_name: Tor Network API Search
+site_url: http://www.indexoffy.com/
+repo_name: IndexOffy/tor-network-api-search
+repo_url: https://github.com/IndexOffy/tor-network-api-search
+
+nav:
+    - Home: index.md
+
+theme: 
+    name: simple-blog
