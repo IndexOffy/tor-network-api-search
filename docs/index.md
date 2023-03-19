@@ -1,6 +1,6 @@
 ### Commit Style
 
-- ⚙️ NO-TASK
+- ⚙️ FEATURE
 - 📝 PEP8
 - 📌 ISSUE
 - 🪲 BUG
