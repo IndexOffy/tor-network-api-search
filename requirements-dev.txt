@@ -1,4 +1,6 @@
 pytest==7.2.1
 httpx==0.23.3
 pylint==2.16.2
+mkdocs==1.4.2
+mkdocs-simple-blog==0.0.7
 -r requirements.txt
